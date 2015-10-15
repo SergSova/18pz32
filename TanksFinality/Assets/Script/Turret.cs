@@ -57,7 +57,6 @@ public class Turret : MonoBehaviour
                 target = hit.transform;
                 targetName = target.name;
             }
-
         }
 
         if (!target)
@@ -68,6 +67,7 @@ public class Turret : MonoBehaviour
             case AimingMode.Object:
                 if (!target) break;
                 targetPoint = target.position;
+                Debug.DrawLine(transform.position, hit.collider.transform.position, Color.blue);
                 break;
             case AimingMode.Mouse:
                 if (!cam) break;
@@ -88,7 +88,6 @@ public class Turret : MonoBehaviour
                 break;
         }
 
-
         localTargetPoint = Hull.InverseTransformPoint(targetPoint);
         localTargetPoint.y = 0f;
         t = Quaternion.LookRotation(localTargetPoint);
@@ -104,6 +103,8 @@ public class Turret : MonoBehaviour
             if (q.x <= AngleY / 180 && q.x >= -AngleY / 360)
                 MainGun.localRotation = Quaternion.RotateTowards(MainGun.localRotation, q, xSpeed * Time.deltaTime);
         }
+
+
 
     }
 }

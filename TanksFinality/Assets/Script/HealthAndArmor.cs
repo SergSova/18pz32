@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HealthAndArmor : MonoBehaviour
 {
-    BatleClass batle;
+    //BatleClass batle;
     public float PlayerHealth = 100;
     public float PlayerArmor = 0f;
     public GameObject DestroyPlayer;
@@ -15,21 +15,23 @@ public class HealthAndArmor : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Bullet" && tag == "Player")
-        {
-            if (PlayerArmor <= 0)
+        if (tag == "Player" || tag == "Respawn")
+            if (other.tag == "Bullet")
             {
-                PlayerHealth -= other.GetComponent<Rigidbody>().velocity.magnitude / 10;
-                stringHealth = "PlayerHealth = " + PlayerHealth.ToString();
+                if (PlayerArmor <= 0)
+                {
+                    PlayerHealth -= other.GetComponent<Rigidbody>().velocity.magnitude / 10;
+                    stringHealth = "PlayerHealth = " + PlayerHealth.ToString();
+                }
+                else
+                {
+                    PlayerArmor -= other.GetComponent<Rigidbody>().velocity.magnitude / 10;
+                    stringArmor = "PlayerArmor = " + PlayerArmor.ToString();
+                }
+                Destroy(other.gameObject);
+                Instantiate(DestroyPlayer, transform.position, transform.rotation);
+                
             }
-            else
-            {
-                PlayerArmor -= other.GetComponent<Rigidbody>().velocity.magnitude / 10;
-                stringArmor = "PlayerArmor = " + PlayerArmor.ToString();
-            }
-            Destroy(other.gameObject);
-            Instantiate(DestroyPlayer, transform.position, transform.rotation);
-        }
     }
 
     void OnGUI()
@@ -42,7 +44,8 @@ public class HealthAndArmor : MonoBehaviour
     {
         if (PlayerHealth <= 0)
         {
-            Instantiate(DestroyedPlayer, transform.position, transform.rotation);
+            GameObject g = (GameObject)Instantiate(DestroyedPlayer, transform.position, transform.rotation);
+            g.name = name;
             Instantiate(DestroyPlayer, transform.position, transform.rotation);
             Destroy(gameObject);
         }
