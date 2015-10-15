@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HealthAndArmor : MonoBehaviour
 {
-
+    BatleClass batle;
     public float PlayerHealth = 100;
     public float PlayerArmor = 0f;
     public GameObject DestroyPlayer;
@@ -28,6 +28,7 @@ public class HealthAndArmor : MonoBehaviour
                 stringArmor = "PlayerArmor = " + PlayerArmor.ToString();
             }
             Destroy(other.gameObject);
+            Instantiate(DestroyPlayer, transform.position, transform.rotation);
         }
     }
 

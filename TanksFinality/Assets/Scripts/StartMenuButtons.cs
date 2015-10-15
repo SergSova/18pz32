@@ -44,9 +44,9 @@ public class StartMenuButtons : MonoBehaviour {
         {
             loginFormErrorText.text = "Login or password is empty!";
         }
-        else if (loginFormLoginValue.text == "SKuh" && loginFormPassValue.text == "11111")
+        else if (loginFormLoginValue.text == "11" && loginFormPassValue.text == "11")
         {
-            Application.LoadLevel(1);
+            Application.LoadLevel(2);
         }
         else
         {

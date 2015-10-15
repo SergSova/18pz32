@@ -12,6 +12,7 @@ public class Shuting : MonoBehaviour
     {
         GetComponent<Rigidbody>().velocity = transform.forward * bulletForce;
     }
+
     void Update()
     {
         Instantiate(ShootSpalsh, transform.position, transform.rotation);

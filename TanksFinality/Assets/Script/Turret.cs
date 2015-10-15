@@ -13,7 +13,7 @@ public class Turret : MonoBehaviour
     public Transform Hull;
     public Transform Turret_;
     public Transform MainGun;
-    public float AngleY = 15;
+    public float AngleY = 5;
     public float AngleX = 45;
 
     public Vector3 targetPoint;
