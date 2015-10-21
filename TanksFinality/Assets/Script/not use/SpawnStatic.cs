@@ -6,7 +6,7 @@ public class SpawnStatic : MonoBehaviour
 {
 
     public float SpawnTime = 3;
-    float nextSpawn;
+    //float nextSpawn;
     public GameObject[] st;
     GameObject[] dead;
     //string[] resp;
@@ -20,7 +20,7 @@ public class SpawnStatic : MonoBehaviour
         if (dead.Length > 0)
         {
             //resp = dead.Select(s=>s.name).ToArray();
-            nextSpawn = Time.time + SpawnTime;
+            //nextSpawn = Time.time + SpawnTime;
             foreach (GameObject item in dead)
             {
                 GameObject ds = st.Where(w => w.name == item.name).FirstOrDefault();

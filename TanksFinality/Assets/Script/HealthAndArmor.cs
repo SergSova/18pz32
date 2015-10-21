@@ -8,14 +8,16 @@ public class HealthAndArmor : MonoBehaviour
     public GameObject DestroyPlayer;
     public GameObject DestroyedPlayer;
     public GameObject Text;
+    public GameObject Texthealth;
     TextMesh tm;
+    TextMesh thealth;
 
-    string stringHealth = "PlayerHealth = 0";
-    string stringArmor = "PlayerArmor = 0";
     public float maxPlayerHealth = 100;
+
     void Start()
     {
         tm = Text.GetComponent<TextMesh>();
+        thealth = Texthealth.GetComponent<TextMesh>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -24,15 +26,22 @@ public class HealthAndArmor : MonoBehaviour
             if (other.tag == "Bullet")
             {
                 var demage = other.GetComponent<Rigidbody>().velocity.magnitude / 10;
-                if (PlayerArmor <= 0)
+                if (PlayerArmor == 0)
                 {
-                    PlayerHealth -= demage;
-                    stringHealth = "PlayerHealth = " + PlayerHealth.ToString();
+                    if ((PlayerHealth - demage) < 0)
+                        PlayerHealth = 0;
+                    else
+                        PlayerHealth -= demage;
                 }
                 else
                 {
-                    PlayerArmor -= demage;
-                    stringArmor = "PlayerArmor = " + PlayerArmor.ToString();
+                    if ((PlayerArmor - demage) < 0)
+                    {
+                        PlayerHealth = demage - PlayerArmor;
+                        PlayerArmor = 0;
+                    }
+                    else
+                        PlayerArmor -= demage;
                 }
 
                 tm.text = "-" + demage.ToString();
@@ -40,6 +49,7 @@ public class HealthAndArmor : MonoBehaviour
                 Destroy(other.gameObject);
                 Instantiate(tm, transform.position, other.transform.rotation);
                 Instantiate(DestroyPlayer, transform.position, transform.rotation);
+                
             }
     }
 
@@ -51,6 +61,7 @@ public class HealthAndArmor : MonoBehaviour
 
     void Update()
     {
+        thealth.text = "Arm " + PlayerArmor.ToString() + "/ Health " + PlayerHealth.ToString();
         if (PlayerHealth <= 0)
         {
             GameObject g = (GameObject)Instantiate(DestroyedPlayer, transform.position, transform.rotation);
