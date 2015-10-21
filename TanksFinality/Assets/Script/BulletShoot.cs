@@ -10,7 +10,6 @@ public class BulletShoot : MonoBehaviour
     private float nextFire;
     AudioSource fire;
 
-
     void Start()
     {
         fire = FindObjectsOfType<AudioSource>().Where(w => w.name == "Fire").FirstOrDefault();

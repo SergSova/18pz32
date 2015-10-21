@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Turret))]
+[RequireComponent(typeof(PlayerContol))]
+[RequireComponent(typeof(BulletShoot))]
+[RequireComponent(typeof(HealthAndArmor))]
+[RequireComponent(typeof(NetworkTransform))]
 public class ClientConected : NetworkBehaviour
 {
 
@@ -16,7 +21,7 @@ public class ClientConected : NetworkBehaviour
             GetComponent<BulletShoot>().enabled = true;
             GetComponent<HealthAndArmor>().enabled = true;
             GetComponent<NetworkTransform>().enabled = true;
-
+            //GetComponent<PlayerLabel>().enabled = true;
         }
     }
 }

@@ -46,7 +46,7 @@ public class StartMenuButtons : MonoBehaviour {
         }
         else if (loginFormLoginValue.text == "11" && loginFormPassValue.text == "11")
         {
-            Application.LoadLevel(2);
+            Application.LoadLevel(1);
         }
         else
         {

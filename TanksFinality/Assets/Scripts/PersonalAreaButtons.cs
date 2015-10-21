@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Linq;
 
-public class PersonalAreaButtons : MonoBehaviour {
+public class PersonalAreaButtons : MonoBehaviour
+{
 
     public GameObject exitForm;
     public GameObject statisticsForm;
     public GameObject mapsForm;
     public GameObject shopForm;
-            
-    public Object currentTank;
 
-    public Transform tank1prefab;
-    public Transform tank2prefab;
-    public Transform tank3prefab;
-    public Transform tank4prefab;
+    public object currentTank;
+    GameObject selectedTank;
+
+    public GameObject tank1prefab;
+    public GameObject tank2prefab;
+    public GameObject tank3prefab;
+    public GameObject tank4prefab;
 
     public Vector3 positionStandart;
     public Vector3 positionForT55;
@@ -46,12 +49,12 @@ public class PersonalAreaButtons : MonoBehaviour {
     public GameObject buttonTank2;
     public GameObject buttonTank3;
     public GameObject buttonTank4;
-    
+
     public Sprite buttonTank1UnlockSprite;
     public Sprite buttonTank2UnlockSprite;
     public Sprite buttonTank3UnlockSprite;
     public Sprite buttonTank4UnlockSprite;
-    
+
     public Sprite buttonTank2LockSprite;
     public Sprite buttonTank3LockSprite;
     public Sprite buttonTank4LockSprite;
@@ -73,16 +76,12 @@ public class PersonalAreaButtons : MonoBehaviour {
     public Text statMoney;
     public Text statExperience;
 
+    public static bool isServerEnabled;
+    private static int levelnumb;
 
     public void Start()
     {
         positionStandart = GameObject.FindWithTag("SpawnPoint").transform.position;
-        positionForT55 = new Vector3(782, 320, 20);
-
-        rotationTank1 = new Vector3(270, 150, 0);
-        rotationTank2 = new Vector3(0, 150, 0);
-        rotationTank3 = new Vector3(0, 150, 0);
-        rotationTank4 = new Vector3(0, 150, 0);
 
         TankInstantiate(tank1prefab, positionStandart, rotationTank1);
 
@@ -139,7 +138,17 @@ public class PersonalAreaButtons : MonoBehaviour {
     public void Battle()
     {
         GameObject.FindWithTag("SoundButton2").GetComponent<AudioSource>().Play();
-        mapsForm.SetActive(!mapsForm.activeSelf);
+        LoadLevel.playerPref = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Where(w => w.name == selectedTank.name).FirstOrDefault() as GameObject;
+        //if (!Servers.isEnable)
+        //{
+        //    levelnumb = Random.Range(2, 5);
+        //    Application.LoadLevel(2);
+        //    isServerEnabled = true;
+        //}
+        //else
+        //{
+            Application.LoadLevel(2);
+        //}
     }
 
     public void exitForm_StartMenuButtonClick()
@@ -153,7 +162,7 @@ public class PersonalAreaButtons : MonoBehaviour {
         GameObject.FindWithTag("SoundButton2").GetComponent<AudioSource>().Play();
         Application.Quit();
     }
-       
+
 
     public void statisticForm_CancelButtonClick()
     {
@@ -164,8 +173,10 @@ public class PersonalAreaButtons : MonoBehaviour {
     public void mapsForm_BattleButtonClick()
     {
         GameObject.FindWithTag("SoundButton2").GetComponent<AudioSource>().Play();
-        Application.LoadLevel(2);
-        
+        LoadLevel.playerPref = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Where(w => w.name == selectedTank.name).FirstOrDefault() as GameObject;
+        Application.LoadLevel(Random.Range(2, 5));
+
+
     }
 
     public void mapsForm_CancelButtonClick()
@@ -174,17 +185,18 @@ public class PersonalAreaButtons : MonoBehaviour {
         mapsForm.SetActive(!mapsForm.activeSelf);
     }
 
-    void TankInstantiate(Transform TankPrefab, Vector3 position, Vector3 rotation)
+    void TankInstantiate(GameObject TankPrefab, Vector3 position, Vector3 rotation)
     {
         if (currentTank != null)
         {
-            Destroy( (currentTank as Transform).gameObject );
+            Destroy((currentTank as Transform).gameObject);
             currentTank = Instantiate(TankPrefab, position, Quaternion.Euler(rotation));
         }
         else
-        {            
+        {
             currentTank = Instantiate(TankPrefab, position, Quaternion.Euler(rotation));
         }
+        selectedTank = TankPrefab;
     }
 
     public void tank1stButtonClick()
@@ -212,7 +224,7 @@ public class PersonalAreaButtons : MonoBehaviour {
         healthTankValue.text = "100";
         armorTankValue.text = "100";
     }
-    
+
 
     public void tank3rdButtonClick()
     {
@@ -273,13 +285,13 @@ public class PersonalAreaButtons : MonoBehaviour {
         else
         {
             notEnoughMoneyText1.SetActive(true);
-        }        
+        }
     }
 
     public void shopForm_T34BuyButtonClick()
     {
         GameObject.FindWithTag("SoundButton2").GetComponent<AudioSource>().Play();
-        
+
         if (moneyAmount >= tank3_T34_Price)
         {
             moneyAmount = moneyAmount - tank3_T34_Price;
@@ -295,7 +307,7 @@ public class PersonalAreaButtons : MonoBehaviour {
     public void shopForm_T55BuyButtonClick()
     {
         GameObject.FindWithTag("SoundButton2").GetComponent<AudioSource>().Play();
-        
+
         if (moneyAmount >= tank4_T55_Price)
         {
             moneyAmount = moneyAmount - tank4_T55_Price;

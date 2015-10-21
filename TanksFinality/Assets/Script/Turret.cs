@@ -67,7 +67,6 @@ public class Turret : MonoBehaviour
             case AimingMode.Object:
                 if (!target) break;
                 targetPoint = target.position;
-                Debug.DrawLine(transform.position, hit.collider.transform.position, Color.blue);
                 break;
             case AimingMode.Mouse:
                 if (!cam) break;
